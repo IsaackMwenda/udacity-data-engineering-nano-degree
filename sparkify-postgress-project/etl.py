@@ -81,7 +81,7 @@ def process_log_file(cur, filepath):
 
 def process_data(cur, conn, filepath, func):
     """
-    Runs process_song_file, process_log_file ETL functions and logs the process
+    Runs process_song_file, process_log_file ETL functions and logs the process.
 
     :param cur: cursor object to execute SQL queries with.
     :type cur: object
