@@ -6,6 +6,14 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+    Reads song files and inserts song and artist data to their respective tables.
+
+    :param cur: cursor object to execute SQL queries with.
+    :type cur: object
+    :param filepath: path to a song file to read
+    :type filepath: str
+    """
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -19,6 +27,14 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    Reads log files and inserts time, user and songplay data to their respective tables.
+
+    :param cur: cursor object to execute SQL queries with.
+    :type cur: object
+    :param filepath: path to a song file to read
+    :type filepath: str
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -64,6 +80,18 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    Runs process_song_file, process_log_file ETL functions and logs the process
+
+    :param cur: cursor object to execute SQL queries with.
+    :type cur: object
+    :param conn: database connection session object.
+    :type conn: object
+    :param func: ETL function object to execute.
+    :type func: object
+    :param filepath: path to a song file to read
+    :type filepath: str
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
