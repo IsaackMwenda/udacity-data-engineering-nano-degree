@@ -1,29 +1,36 @@
-Data Modeling with Postgres Project
-Purpose of the project
-The purpose of this project is to create a database that simplifies the querying of data on songs and user activity for the analytics team.
+# Project: Data Modeling with Postgres - Sparkify
 
-Database Schema Design
-The database schema used for this project is the star schema. It consists of one Fact table (song_play) and four Dimension Tables (users, songs artists and time). This schema design helps with simplifying complex queries and allows for greater performance when reading data from the database.
+## Usecase description
+A startup called Sparkify wants to analyze the data they've been collecting on songs and user activity on their new music streaming app. The analytics team is particularly interested in understanding what songs users are listening to. Currently, they don't have an easy way to query their data, which resides in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app.
 
-File Structure
-The files in the repository are as follows:
+## Solution
+ETL pipeline and Postgres database optimized for songplay analysis.
 
-sql_queries.py
-This contains the queries that drops the tables if they exist, creates the tables, inserts extracted data from the datasets to the tables and a select query that gets the songid and artistid.
+## Database Schema Design
+Schema type: star - Optimized for simple queries and fast reads.
+Fact tables: song_play
+Dimension Tables: users, songs artists and time. This schema design helps with simplifying complex queries and allows for greater performance when reading data from the database.
 
-create_tables.py
-This file contains the methods that execute the drop and create table queries found in the sql_queries file .
+## Pipeline File Structure
+### sql_queries.py
+Contains queries that; drops the tables if they exist, creates the tables, inserts extracted data from the datasets to the tables and a select query that gets the songplay data.
 
-etl.py
-Extracts data from the data files and inserts them in the database tables.
+### create_tables.py
+Executes the drop and create table queries sql_queries.py file .
 
-Running Scripts
-Requirements
-Python 3
-Postgresql
-To drop or create the tables, ensure you are in the project's directory then run the following command:
+### etl.py
+Runs the end to end pipeline stages i.e extract data from the json data files and insert into the database.
 
-python create_tables.py
-To run the ETL pipeline that will extract data from the datasets and store them in the tables simply run:
+## Running Pipeline
+### Pre-requisites
+Install the following tools before running the pipeline:
+ - Postgres SQL
+ - Bash
+ - Python 3.6+
+ - psycopg2
+ - pandas
 
-python etl.py
+To run the pipeline run </br>
+```
+$ ./run_pipeline.sh
+```
