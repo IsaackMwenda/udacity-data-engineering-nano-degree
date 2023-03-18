@@ -12,11 +12,11 @@ songplay_table_create = ("""
         CREATE TABLE IF NOT EXISTS song_play ( 
                 songplay_id SERIAL, 
                 start_time timestamp, 
-                user_id varchar, 
-                level varchar, 
+                user_id int, 
+                level varchar NOT NULL, 
                 song_id varchar, 
                 artist_id varchar, 
-                session_id int, 
+                session_id int NOT NULL, 
                 location varchar, 
                 user_agent varchar,
                 PRIMARY KEY(songplay_id)
@@ -25,11 +25,11 @@ songplay_table_create = ("""
 
 user_table_create = ("""
         CREATE TABLE IF NOT EXISTS users (
-                user_id varchar NOT NULL,  
+                user_id int NOT NULL,  
                 first_name varchar, 
                 last_name varchar, 
                 gender varchar, 
-                level varchar,
+                level varchar NOT NULL,
                 PRIMARY KEY(user_id)
                 );
         """)
@@ -39,8 +39,8 @@ song_table_create = ("""
                 song_id varchar NOT NULL,
                 title varchar, 
                 artist_id varchar, 
-                year int, 
-                duration numeric,
+                year int CHECK (year >= 0), 
+                duration float,
                 PRIMARY KEY(song_id)
                 );
         """)
@@ -50,8 +50,8 @@ artist_table_create = ("""
                 artist_id varchar NOT NULL, 
                 name varchar, 
                 location varchar, 
-                latitude numeric, 
-                longitude numeric,
+                latitude DECIMAL(9,6), 
+                longitude DECIMAL(9,6),
                 PRIMARY KEY(artist_id)
                 );
         """)
@@ -59,18 +59,17 @@ artist_table_create = ("""
 time_table_create = ("""
         CREATE TABLE IF NOT EXISTS time (
                 start_time timestamp NOT NULL, 
-                hour int,
-                day int, 
-                week int, 
-                month int, 
-                year int, 
-                weekday varchar,
+                hour int NOT NULL CHECK (hour >= 0),
+                day int NOT NULL CHECK (day >= 0), 
+                week int NOT NULL CHECK (week >= 0), 
+                month int NOT NULL CHECK (month >= 0), 
+                year int NOT NULL CHECK (year >= 0), 
+                weekday varchar NOT NULL,
                 PRIMARY KEY(start_time)
                 );
         """)
 
 # INSERT RECORDS
-
 songplay_table_insert = ("""
         INSERT INTO song_play (
                 start_time, 
@@ -93,7 +92,9 @@ user_table_insert = ("""
                 gender, 
                 level) 
                 VALUES (%s, %s, %s, %s, %s)
-                ON CONFLICT DO NOTHING;
+                ON CONFLICT (user_id) 
+                DO UPDATE 
+                SET level = EXCLUDED.level;
         """)
 
 song_table_insert = ("""
