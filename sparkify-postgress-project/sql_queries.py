@@ -12,7 +12,7 @@ songplay_table_create = ("""
         CREATE TABLE IF NOT EXISTS song_play ( 
                 songplay_id SERIAL, 
                 start_time timestamp, 
-                user_id int, 
+                user_id varchar NOT NULL, 
                 level varchar NOT NULL, 
                 song_id varchar, 
                 artist_id varchar, 
@@ -25,7 +25,7 @@ songplay_table_create = ("""
 
 user_table_create = ("""
         CREATE TABLE IF NOT EXISTS users (
-                user_id int NOT NULL,  
+                user_id varchar NOT NULL,  
                 first_name varchar, 
                 last_name varchar, 
                 gender varchar, 
